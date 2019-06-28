@@ -11,16 +11,20 @@ const MenuWrapper = styled.div`
 `
 
 export function Menu() {
-    return <MenuWrapper>
-        <h1>Menu</h1>
-        <MenuGrid>
-        {foods.map(food => (
-            <Food img={food.img}>
-                <FoodLabel>
-                {food.name}
-                </FoodLabel>
-                </Food>
-        ))}
-        </MenuGrid>
-    </MenuWrapper>;
+    return (
+        <MenuWrapper>
+            {Object.entries(foods).map(([sectionName, foods]) => (
+                <>
+                <h1>{sectionName}</h1>
+                <MenuGrid>
+                {foods.map(food => (
+                    <Food img={food.img}>
+                        <FoodLabel>{food.name}</FoodLabel>
+                    </Food>
+                ))}
+                </MenuGrid>
+                </>
+            ))}
+    </MenuWrapper>
+    );
 }
