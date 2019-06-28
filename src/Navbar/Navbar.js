@@ -20,7 +20,7 @@ const LogoWrapper = styled(Title)`
 export function Navbar() {
     return <NavbarWrapper>
         <LogoWrapper>
-            Pho-React 🍜
+            Pho-React <span role="img" aria-label="noodle bowl">🍜</span>
         </LogoWrapper>
     </NavbarWrapper>;
 }
