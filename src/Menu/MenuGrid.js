@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import {Title} from '../Styles/title'
 
-export const FoodGrid = styled.div`
+export const MenuGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;

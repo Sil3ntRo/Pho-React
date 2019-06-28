@@ -6,6 +6,8 @@ import {Title} from '../Styles/title'
 export const NavbarWrapper = styled.div`
     background-color: ${leafyGreen};
     padding: 10px;
+    position: fixed;
+    width: 100%;
 `
 
 const LogoWrapper = styled(Title)`
@@ -18,7 +20,6 @@ const LogoWrapper = styled(Title)`
 export function Navbar() {
     return <NavbarWrapper>
         <LogoWrapper>
-
             Pho-React 🍜
         </LogoWrapper>
     </NavbarWrapper>;
