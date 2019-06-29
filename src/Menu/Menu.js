@@ -10,7 +10,7 @@ const MenuWrapper = styled.div`
     
 `
 
-export function Menu() {
+export function Menu({setFoodOpen}) {
     return (
         <MenuWrapper>
             {Object.entries(foods).map(([sectionName, foods]) => (
@@ -18,7 +18,11 @@ export function Menu() {
                 <h1>{sectionName}</h1>
                 <MenuGrid>
                 {foods.map(food => (
-                    <Food img={food.img}>
+                    <Food
+                        img={food.img}
+                        onClick={() => {
+                            setFoodOpen(food);
+                    }}>
                         <FoodLabel>{food.name}</FoodLabel>
                     </Food>
                 ))}
