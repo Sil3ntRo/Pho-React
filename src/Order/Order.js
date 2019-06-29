@@ -20,11 +20,12 @@ const OrderContent = styled(DialogContent)`
     height: 100%;
 `
 
-export function Order() {
+export function Order({orders}) {
     return <OrderWrapper>
-            <OrderContent>
+        {orders.length === 0 ? <OrderContent>
                 Your order's looking pretty empty.
-            </OrderContent>
+            </OrderContent> :
+            <OrderContent>Found {orders.length} orders</OrderContent> }
         <DialogFooter>
             <ConfirmButton>
                 Checkout

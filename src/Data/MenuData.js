@@ -1,5 +1,30 @@
 export const MenuItems = [
     {
+        name: 'Bang Bang Shrimp',
+        img: '/images/bangbangshrimp.jpg',
+        section: 'Appetizers'
+    },
+    {
+        name: 'Beef Skewers',
+        img: '/images/beef-skewers.jpg',
+        section: 'Appetizers'
+    },
+    {
+        name: 'Spring Rolls',
+        img: '/images/Spring-roll.jpg',
+        section: 'Appetizers'
+    },
+    {
+        name: 'Shaken Fries',
+        img: '/images/Shaken-fries.jpeg',
+        section: 'Appetizers'
+    },
+    {
+        name: 'Banh Mi',
+        img: '/images/bahn-mi.jpg',
+        section: 'Banh Mi'
+    },
+    {
         name: 'Beef Noodle Soup - Pho',
         img:  '/images/beef-pho.jpg',
         section: 'Pho Rice Noodle Soups'
@@ -41,15 +66,25 @@ export const MenuItems = [
         section: 'Fried Rice'
     },
     {
-        name: 'Bang Bang Shrimp',
-        img: '/images/bangbangshrimp.jpg',
-        section: 'Appetizers'
+        name: 'Limeade',
+        img: '/images/limeade.jpeg',
+        section: 'Beverages'
     },
     {
-        name: 'Beef Skewers',
-        img: '/images/beef-skewers.jpg',
-        section: 'Appetizers'
+        name: 'Lemonade',
+        img: '/images/lemonade.jpeg',
+        section: 'Beverages'
     },
+    {
+        name: 'Che Ba Mau',
+        img: '/images/Che-Ba-Mau.jpg',
+        section: 'Beverages'
+    },
+    {
+        name: 'Thai Iced Tea',
+        img: '/images/Thai-Iced-Tea.jpg',
+        section: 'Beverages'
+    }
 ]
 
 export const foods = MenuItems.reduce((res, food) => {
