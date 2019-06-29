@@ -4,6 +4,8 @@ import {FoodLabel} from "../Menu/MenuGrid";
 import {leafyGreen} from "../Styles/colors";
 import {Title} from "../Styles/title";
 import {formatPrice} from "../Data/MenuData";
+import {Quantity} from "./Quantity";
+import {useQuantity} from "../Hooks/useQuantity";
 
 const Dialog = styled.div`
     width: 500px;
@@ -63,17 +65,22 @@ const DialogBannerName = styled(FoodLabel)`
     top: 100px;
     font-size: 30px;
     padding: 5px 40px;
-`
+`;
 
-export function MenuDialog({openFood, setFoodOpen, setOrders, orders}) {
+export function getPrice(order) {
+    return order.quantity * order.price;
+}
+
+ function MenuDialogContainer({openFood, setFoodOpen, setOrders, orders}) {
+     const quantity = useQuantity(openFood && openFood.quantity);
+
     function close() {
         setFoodOpen();
     }
 
-    if(!openFood) return null;
-
     const order = {
-       ...openFood
+       ...openFood,
+        quantity: quantity.value
     };
     
     function addToOrder() {
@@ -91,13 +98,20 @@ export function MenuDialog({openFood, setFoodOpen, setOrders, orders}) {
                            {openFood.name}
                        </DialogBannerName>
                    </DialogBanner>
-                   <DialogContent />
+                   <DialogContent>
+                       <Quantity quantity={quantity}/>
+                   </DialogContent>
                    <DialogFooter>
                        <ConfirmButton onClick={addToOrder}>
-                           Add to order: {formatPrice(openFood.price)}
+                           Add to order: {formatPrice(getPrice(order))}
                        </ConfirmButton>
                    </DialogFooter>
                </Dialog>
        </>
-        )
+        );
+}
+
+export function MenuDialog(props) {
+    if (!props.openFood) return null;
+    return <MenuDialogContainer {...props} />;
 }
