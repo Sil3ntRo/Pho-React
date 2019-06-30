@@ -8,6 +8,8 @@ export const NavbarWrapper = styled.div`
     padding: 10px;
     position: fixed;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
 `
 
 const LogoWrapper = styled(Title)`
@@ -17,10 +19,29 @@ const LogoWrapper = styled(Title)`
 
 `
 
-export function Navbar() {
-    return <NavbarWrapper>
-        <LogoWrapper>
-            Pho-React <span role="img" aria-label="noodle bowl">🍜</span>
-        </LogoWrapper>
-    </NavbarWrapper>;
+const UserStatus = styled.div`
+    color: white;
+    font-size: 12px;
+    margin-right: 30px;
+
+`;
+
+const LoginButton = styled.span`
+    cursor: pointer;
+    
+
+`
+
+export function Navbar({login, loggedIn}) {
+    return (
+        <NavbarWrapper>
+            <LogoWrapper>
+                Pho-React <span role="img" aria-label="noodle bowl">🍜</span>
+            </LogoWrapper>
+            <UserStatus>
+                {loggedIn === 'loading' ? 'Logged in.' :
+                <LoginButton onClick={login}>Login / Sign up</LoginButton>}
+            </UserStatus>
+        </NavbarWrapper>
+    );
 }

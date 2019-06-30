@@ -4,6 +4,8 @@ import {DialogContent, DialogFooter, ConfirmButton} from "../MenuDialog/MenuDial
 import {formatPrice} from "../Data/MenuData"
 import {getPrice} from "../MenuDialog/MenuDialog"
 
+const database = window.firebase.database();
+
 const OrderWrapper = styled.div`
     position: fixed;
     right: 0px;
@@ -48,9 +50,33 @@ const DetailItem = styled.div`
     color: gray;
     font-size: 10px;
 
-`
+`;
 
-export function Order({orders, setOrders, setFoodOpen}) {
+function sendOrder(orders) {
+    const newOrderRef = database.ref('orders').push();
+    const newOrders = orders.map(order => {
+        return Object.keys(order).reduce((acc, orderKey) => {
+            if(!order[orderKey]) {
+                //undefined value
+                return acc;
+            }
+            if(orderKey === 'choices') {
+                return {
+                    ...acc,
+                    [orderKey]: order[orderKey]
+                        .filter(({checked}) => checked)
+                        .map(({name}) => name)
+                };
+            }
+            return {
+                ...acc,
+                [orderKey]: order[orderKey]
+            }
+        }, {});
+    });
+}
+
+export function Order({orders, setOrders, setFoodOpen, login, loggedIn, setOpenOrderDialog}) {
     const subtotal = orders.reduce((total, order) => {
         return total + getPrice(order);
     }, 0);
@@ -118,10 +144,14 @@ export function Order({orders, setOrders, setFoodOpen}) {
                     </OrderItem>
                 </OrderContainer>
             </OrderContent> )}
-        <DialogFooter>
-            <ConfirmButton>
+        {orders.length > 0 && <DialogFooter>
+             <ConfirmButton onClick={() => {
+                setOpenOrderDialog(true);
+                sendOrder(orders, loggedIn);
+
+            }}>
                 Checkout
             </ConfirmButton>
-        </DialogFooter>
+        </DialogFooter> }
     </OrderWrapper>
 }
