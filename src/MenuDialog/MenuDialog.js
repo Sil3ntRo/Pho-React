@@ -6,6 +6,8 @@ import {Title} from "../Styles/title";
 import {formatPrice} from "../Data/MenuData";
 import {Quantity} from "./Quantity";
 import {useQuantity} from "../Hooks/useQuantity";
+import {Choices} from "./Choices";
+import {useChoices} from "../Hooks/useChoices";
 
 const Dialog = styled.div`
     width: 500px;
@@ -22,6 +24,8 @@ const Dialog = styled.div`
 export const DialogContent = styled.div`
     overflow: auto;
     min-height: 100px;
+    padding: 0px 40px;
+    padding-bottom: 80px;
 `;
 
 export const DialogFooter = styled.div`
@@ -67,12 +71,24 @@ const DialogBannerName = styled(FoodLabel)`
     padding: 5px 40px;
 `;
 
+const pricePerTopping = 0.5;
+
 export function getPrice(order) {
-    return order.quantity * order.price;
+    return order.quantity * (order.price + order.choices.filter(t => t.checked).length * pricePerTopping);
+}
+
+export function hasChoices(food) {
+    return food.section === 'Pho Rice Noodle Soups' ||
+           food.section === 'Noodle Soup Varieties' ||
+           food.section === 'Rice Vermicelli' ||
+           food.section === 'Fried Rice';
+
 }
 
  function MenuDialogContainer({openFood, setFoodOpen, setOrders, orders}) {
      const quantity = useQuantity(openFood && openFood.quantity);
+     const choices = useChoices(openFood.choices);
+     const isEditing = openFood.index > -1;
 
     function close() {
         setFoodOpen();
@@ -80,9 +96,17 @@ export function getPrice(order) {
 
     const order = {
        ...openFood,
-        quantity: quantity.value
-    };
-    
+        quantity: quantity.value,
+        choices: choices.choices
+    }
+
+     function editOrder(newOrder) {
+         const newOrders = [...orders];
+         newOrders[newOrder.index] = order;
+         setOrders(newOrders);
+         close();
+     }
+
     function addToOrder() {
         setOrders([...orders, order]);
         close();
@@ -100,10 +124,21 @@ export function getPrice(order) {
                    </DialogBanner>
                    <DialogContent>
                        <Quantity quantity={quantity}/>
+                       {hasChoices(openFood) && (
+                           <>
+                               <h3> Would you like Extra's? </h3>
+                               <Choices {...choices}/>
+                           </>
+                       )}
+
                    </DialogContent>
                    <DialogFooter>
-                       <ConfirmButton onClick={addToOrder}>
-                           Add to order: {formatPrice(getPrice(order))}
+                       <ConfirmButton
+                           onClick={isEditing ? editOrder : addToOrder}
+
+                       >
+                           {isEditing ? `Update order: ` : `Add to order: `}
+                           {formatPrice(getPrice(order))}
                        </ConfirmButton>
                    </DialogFooter>
                </Dialog>
